@@ -9,7 +9,7 @@ const name = "Jason"
 func main() {
 	var accountBalance float64 = 1000
 
-	fmt.Println("Welcome to Go-Bank!!\n")
+	fmt.Println("Welcome to Go-Bank!!")
 
 	for {
 
