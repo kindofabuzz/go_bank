@@ -20,7 +20,7 @@ func main() {
 
 	fmt.Println("--------------------")
 	fmt.Println("Welcome to Go-Bank!!")
-	fmt.Println("Give us a call yall!: ", randomdata.PhoneNumber())
+	fmt.Printf("Give %v a call at %v\n", randomdata.SillyName(), randomdata.PhoneNumber())
 	fmt.Println("--------------------")
 	fmt.Println()
 
