@@ -1,31 +1,43 @@
 package main
 
 import (
+	"beast/bank/comms"
+	"beast/bank/fileops"
 	"fmt"
+
+	"github.com/Pallinder/go-randomdata"
 )
 
-const name = "Jason"
+const accountBalanceFile = "balance.txt"
 
 func main() {
-	var accountBalance float64 = 1000
+	var accountBalance, err = fileops.GetFloatFromFile(accountBalanceFile)
 
+	if err != nil {
+		fmt.Println("ERROR")
+		fmt.Println(err)
+	}
+
+	fmt.Println("--------------------")
 	fmt.Println("Welcome to Go-Bank!!")
+	fmt.Println("Give us a call yall!: ", randomdata.PhoneNumber())
+	fmt.Println("--------------------")
+	fmt.Println()
 
 	for {
 
-		fmt.Printf("What would you like to do, %v?\n", name)
-		fmt.Println("1. Check Balance")
-		fmt.Println("2. Deposit Money")
-		fmt.Println("3. Withdraw Money")
-		fmt.Println("4. Exit")
+		comms.PresentOptions()
 
 		var choice int
+		fmt.Println()
 		fmt.Print("Enter choice: ")
 		fmt.Scan(&choice)
 
-		if choice == 1 {
-			fmt.Println("Your Balance:  ", accountBalance)
-		} else if choice == 2 {
+		switch choice {
+		case 1:
+			fmt.Printf("Your Balance:  %.2f\n", accountBalance)
+
+		case 2:
 			fmt.Print("Your Deposit: ")
 			var depositAmount float64
 			fmt.Scan(&depositAmount)
@@ -37,31 +49,40 @@ func main() {
 			}
 
 			accountBalance += depositAmount
-			fmt.Println("Balance updated. New balance: ", accountBalance)
 
-		} else if choice == 3 {
+			fmt.Printf("Balance updated. New balance: %.2f\n", accountBalance)
+			fmt.Println()
+			fileops.WriteFloatToFile(accountBalance, accountBalanceFile)
+
+		case 3:
 			fmt.Print("Withdraw amount: ")
 			var withdrawAmount float64
 			fmt.Scan(&withdrawAmount)
 
 			if withdrawAmount <= 0 {
 				fmt.Println("Must be greater than 0.")
-				return
+				fmt.Println("----------------")
+				continue
 			}
 
 			if withdrawAmount > accountBalance {
 				fmt.Println("Nigga you ain't got that much.")
-				return
+				fmt.Println("----------------")
+				continue
 			}
-			accountBalance -= withdrawAmount
-			fmt.Printf("Balance updated. New balance: %.2f", accountBalance)
 
-		} else {
+			accountBalance -= withdrawAmount
+
+			fmt.Printf("Balance updated. New balance: %.2f\n", accountBalance)
+			fileops.WriteFloatToFile(accountBalance, accountBalanceFile)
+
+		default:
 			fmt.Println("See ya!")
-			break
+			fmt.Println("Thank you for your patronage!")
+			return
 
 		}
+
 	}
 
-	fmt.Println("Thank you for your patronage!")
 }
