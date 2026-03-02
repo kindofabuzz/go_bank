@@ -20,7 +20,11 @@ func GetFloatFromFile(fileName string) (float64, error) {
 	return value, nil
 }
 
-func WriteFloatToFile(value float64, fileName string) {
+func WriteFloatToFile(value float64, fileName string) error {
 	valueText := fmt.Sprint(value)
-	os.WriteFile(fileName, []byte(valueText), 0644)
+	err := os.WriteFile(fileName, []byte(valueText), 0644)
+	if err != nil {
+		return errors.New("Failed to write value to file.")
+	}
+	return nil
 }
