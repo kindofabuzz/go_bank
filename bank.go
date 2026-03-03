@@ -10,7 +10,10 @@ import (
 
 const accountBalanceFile = "balance.txt"
 
+
 func main() {
+	var dashes string = "-----------------------------------------"
+
 	var accountBalance, err = fileops.GetFloatFromFile(accountBalanceFile)
 
 	if err != nil {
@@ -18,10 +21,10 @@ func main() {
 		fmt.Println(err)
 	}
 
-	fmt.Println("--------------------")
+	fmt.Println(dashes)
 	fmt.Println("Welcome to Go-Bank!!")
 	fmt.Printf("Give %v a call at %v\n", randomdata.SillyName(), randomdata.PhoneNumber())
-	fmt.Println("--------------------")
+	fmt.Print(dashes)
 	fmt.Println()
 
 	for {
@@ -31,53 +34,54 @@ func main() {
 		var choice int
 		fmt.Println()
 		fmt.Print("Enter choice: ")
+		// fmt.Println("")
 		fmt.Scan(&choice)
 
 		switch choice {
 		case 1:
-			fmt.Printf("Your Balance:  %.2f\n", accountBalance)
+			fmt.Printf("\nYour Balance:  %.2f\n", accountBalance)
 
 		case 2:
-			fmt.Print("Your Deposit: ")
+			fmt.Print("\nYour Deposit: \n")
 			var depositAmount float64
 			fmt.Scan(&depositAmount)
 
 			if depositAmount <= 0 {
 				fmt.Println("Must be greater than 0.")
-				fmt.Println("----------------")
+				fmt.Print(dashes, "\n")
 				continue
 			}
 
 			accountBalance += depositAmount
 
-			fmt.Printf("Balance updated. New balance: %.2f\n", accountBalance)
+			fmt.Printf("\nBalance updated. New balance: %.2f\n", accountBalance)
 			fmt.Println()
 			fileops.WriteFloatToFile(accountBalance, accountBalanceFile)
 
 		case 3:
-			fmt.Print("Withdraw amount: ")
+			fmt.Print("\nWithdraw amount: ")
 			var withdrawAmount float64
 			fmt.Scan(&withdrawAmount)
 
 			if withdrawAmount <= 0 {
-				fmt.Println("Must be greater than 0.")
-				fmt.Println("----------------")
+				fmt.Println("\nMust be greater than 0.")
+				fmt.Print(dashes, "\n")
 				continue
 			}
 
 			if withdrawAmount > accountBalance {
-				fmt.Println("Nigga you ain't got that much.")
-				fmt.Println("----------------")
+				fmt.Println("\nNigga you ain't got that much.")
+				fmt.Print(dashes, "\n")
 				continue
 			}
 
 			accountBalance -= withdrawAmount
 
-			fmt.Printf("Balance updated. New balance: %.2f\n", accountBalance)
+			fmt.Printf("\nBalance updated. New balance: %.2f\n", accountBalance)
 			fileops.WriteFloatToFile(accountBalance, accountBalanceFile)
 
 		default:
-			fmt.Println("See ya!")
+			fmt.Println("\nSee ya!")
 			fmt.Println("Thank you for your patronage!")
 			return
 
