@@ -12,7 +12,7 @@ const accountBalanceFile = "balance.txt"
 
 
 func main() {
-	var dashes string = "-----------------------------------------"
+	dashes := "-----------------------------------------"
 
 	var accountBalance, err = fileops.GetFloatFromFile(accountBalanceFile)
 
@@ -35,9 +35,11 @@ func main() {
 		fmt.Println()
 		fmt.Print("Enter choice: ")
 		// fmt.Println("")
-		fmt.Scan(&choice)
+		fmt.Scanln(&choice)
 
 		switch choice {
+		case 0:
+			continue
 		case 1:
 			fmt.Printf("\nYour Balance:  %.2f\n", accountBalance)
 
